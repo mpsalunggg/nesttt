@@ -64,4 +64,9 @@ export class UserController {
       statusCode: 301,
     };
   }
+
+  @Get('/async')
+  async getAsync(): Promise<string> {
+    return 'test';
+  }
 }
