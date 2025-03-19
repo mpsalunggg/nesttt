@@ -9,11 +9,23 @@ import {
   Query,
   Redirect,
   Req,
+  Res,
 } from '@nestjs/common';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 
 @Controller('/api/user')
 export class UserController {
+  @Get('/set-cookie')
+  setCookie(@Query('title') title: string, @Res() response: Response) {
+    response.cookie('name', title);
+    response.status(200).send('succss set cookie');
+  }
+
+  @Get('/get-cookie')
+  getCookie(@Req() request: Request) {
+    return request.cookies['name'];
+  }
+
   @Get('/sample')
   get(): string {
     return 'Hello World';
