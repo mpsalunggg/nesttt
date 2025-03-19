@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Req } from '@nestjs/common';
+import { Controller, Get, Param, Post, Query, Req } from '@nestjs/common';
 import { Request } from 'express';
 
 @Controller('/api/user')
@@ -13,8 +13,18 @@ export class UserController {
     return 'Testt Post';
   }
 
-  @Get('/:id')
+  @Get('/hello/:id')
   getById(@Req() request: Request): string {
     return `Get by id : ${request.params.id}`;
+  }
+
+  @Get('/hello')
+  getHello(@Query('name') name: string) {
+    return `Hai bro ${name}`;
+  }
+
+  @Get('/test/:id')
+  getByIdV2(@Param('id') id: string) {
+    return `ini id sekian :${id}`;
   }
 }
