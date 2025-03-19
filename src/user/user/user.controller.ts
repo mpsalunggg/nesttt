@@ -1,4 +1,15 @@
-import { Controller, Get, Param, Post, Query, Req } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Header,
+  HttpCode,
+  HttpRedirectResponse,
+  Param,
+  Post,
+  Query,
+  Redirect,
+  Req,
+} from '@nestjs/common';
 import { Request } from 'express';
 
 @Controller('/api/user')
@@ -26,5 +37,31 @@ export class UserController {
   @Get('/test/:id')
   getByIdV2(@Param('id') id: string) {
     return `ini id sekian :${id}`;
+  }
+
+  @Get('docs')
+  @Redirect('https://docs.nestjs.com', 302)
+  getDocs(@Query('version') version) {
+    if (version && version === '5') {
+      return { url: 'https://docs.nestjs.com/v5/' };
+    }
+  }
+
+  @Get('/sample-response')
+  @Header('Content-Type', 'application/json')
+  @HttpCode(200)
+  sample(): Record<string, string> {
+    return {
+      data: 'test 123',
+    };
+  }
+
+  @Get('/redirect')
+  @Redirect()
+  redirect(): HttpRedirectResponse {
+    return {
+      url: '/api/user/sample-response',
+      statusCode: 301,
+    };
   }
 }
