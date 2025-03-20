@@ -15,6 +15,19 @@ import { Request, Response } from 'express';
 
 @Controller('/api/user')
 export class UserController {
+  @Get('/view/hello/ges')
+  getViewHello(
+    @Query('name') name: string,
+    @Query('role') role: string,
+    @Res() response: Response,
+  ) {
+    response.render('index.html', {
+      title: 'Template',
+      name,
+      role,
+    });
+  }
+
   @Get('/set-cookie')
   setCookie(@Query('title') title: string, @Res() response: Response) {
     response.cookie('name', title);
