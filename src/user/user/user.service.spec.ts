@@ -15,4 +15,10 @@ describe('UserService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
+
+  it('shoul say hello', async() => {
+    const response = await service.sayHello('mps')
+
+    expect(response).toBe('Hello mps')
+  });
 });

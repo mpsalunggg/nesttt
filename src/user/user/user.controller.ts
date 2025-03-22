@@ -12,9 +12,17 @@ import {
   Res,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
+import { UserService } from './user.service';
 
 @Controller('/api/user')
 export class UserController {
+  constructor(private service: UserService) {}
+
+  @Get('/hello')
+  getHello(@Query('name') name: string) {
+    return this.service.sayHello(name);
+  }
+
   @Get('/view/hello/ges')
   getViewHello(
     @Query('name') name: string,
@@ -52,11 +60,6 @@ export class UserController {
   @Get('/hello/:id')
   getById(@Req() request: Request): string {
     return `Get by id : ${request.params.id}`;
-  }
-
-  @Get('/hello')
-  getHello(@Query('name') name: string) {
-    return `Hai bro ${name}`;
   }
 
   @Get('/test/:id')
