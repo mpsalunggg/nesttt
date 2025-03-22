@@ -16,7 +16,7 @@ describe('UserService', () => {
     expect(service).toBeDefined();
   });
 
-  it('shoul say hello', async() => {
+  it('should say hello', async() => {
     const response = await service.sayHello('mps')
 
     expect(response).toBe('Hello mps')

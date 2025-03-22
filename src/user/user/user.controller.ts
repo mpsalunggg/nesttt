@@ -13,10 +13,19 @@ import {
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { UserService } from './user.service';
+import { Connection } from '../connection/connection';
 
 @Controller('/api/user')
 export class UserController {
-  constructor(private service: UserService) {}
+  constructor(
+    private service: UserService,
+    private connection: Connection,
+  ) {}
+
+  @Get('/connection')
+  getConnection(): string | null {
+    return this.connection.getConnection();
+  }
 
   @Get('/hello')
   getHello(@Query('name') name: string) {
