@@ -15,6 +15,7 @@ import { Request, Response } from 'express';
 import { UserService } from './user.service';
 import { Connection } from '../connection/connection';
 import { MailService } from '../mail/mail.service';
+import { UserRepository } from '../user-repository/user-repository';
 
 @Controller('/api/user')
 export class UserController {
@@ -22,10 +23,12 @@ export class UserController {
     private service: UserService,
     private connection: Connection,
     private mail: MailService,
+    private userRepository: UserRepository,
   ) {}
 
   @Get('/connection')
   getConnection(): string | null {
+    this.userRepository.save()
     this.mail.send();
     return this.connection.getConnection();
   }
