@@ -6,6 +6,7 @@ import {
   MongoConnection,
   MysqlConnection,
 } from './connection/connection';
+import { MailService } from './mail/mail.service';
 
 @Module({
   controllers: [UserController],
@@ -15,6 +16,10 @@ import {
       provide: Connection,
       useClass:
         process.env.DATABASE === 'mysql' ? MysqlConnection : MongoConnection,
+    },
+    {
+      provide: MailService,
+      useValue: new MailService(),
     },
   ],
 })
