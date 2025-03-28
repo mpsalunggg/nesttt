@@ -4,6 +4,7 @@ import * as cookieParser from 'cookie-parser';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import * as mustacheExpress from 'mustache-express';
 import { join } from 'path';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -13,6 +14,7 @@ async function bootstrap() {
 
   app.setViewEngine('html');
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
-  await app.listen(process.env.PORT ?? 3000);
+  const configService = app.get(ConfigService)
+  await app.listen(configService.get('PORT') as string);
 }
 bootstrap();
