@@ -22,7 +22,7 @@ import { ConfigService } from '@nestjs/config';
     {
       provide: Connection,
       useFactory: createConnection,
-      inject: [ConfigService]
+      inject: [ConfigService],
     },
     {
       provide: MailService,
@@ -39,5 +39,6 @@ import { ConfigService } from '@nestjs/config';
     },
     MemberService,
   ],
+  exports: [UserService],
 })
 export class UserModule {}
