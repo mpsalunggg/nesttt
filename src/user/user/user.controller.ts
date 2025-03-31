@@ -19,6 +19,7 @@ import { MailService } from '../mail/mail.service';
 import { UserRepository } from '../user-repository/user-repository';
 import { ModuleRef } from '@nestjs/core';
 import { MemberService } from '../member/member.service';
+import { User } from '@prisma/client';
 
 @Controller('/api/user')
 export class UserController {
@@ -31,9 +32,18 @@ export class UserController {
     private memberService: MemberService,
   ) {}
 
+  // should be post http method
+  @Get('/create')
+  async createUser(
+    @Query('first_name') first_name: string,
+    @Query('last_name') last_name: string,
+  ): Promise<User> {
+    return this.userRepository.createUser(first_name, last_name);
+  }
+
   @Get('/connection')
   getConnection(): string | null {
-    this.userRepository.save();
+    // this.userRepository.save();
     this.mail.send();
     this.email.send();
 
