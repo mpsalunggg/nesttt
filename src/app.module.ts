@@ -10,9 +10,18 @@ import * as winston from 'winston';
 @Module({
   imports: [
     WinstonModule.forRoot({
-      format: winston.format.json(),
       level: 'debug',
-      transports: [new winston.transports.Console()]
+      transports: [
+        new winston.transports.Console({
+          format: winston.format.combine(
+            winston.format.timestamp(),
+            winston.format.colorize(),
+            winston.format.printf(({ timestamp, level, message, stack }) => {
+              return `${timestamp} [${level}] ${message} ${stack ? `\n${stack}` : ''}`;
+            }),
+          ),
+        }),
+      ],
     }),
     ConfigModule.forRoot({
       isGlobal: true,

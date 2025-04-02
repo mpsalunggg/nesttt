@@ -32,6 +32,11 @@ export class UserController {
     private memberService: MemberService,
   ) {}
 
+  @Get('/test-log')
+  testLog() {
+    return this.userRepository.logSomething();
+  }
+
   // should be post http method
   @Get('/create')
   async createUser(
