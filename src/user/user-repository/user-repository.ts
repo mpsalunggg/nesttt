@@ -18,6 +18,11 @@ export class UserRepository {
     this.logger2.info('create user repository');
   }
 
+  /* 
+   Both loggers can be used simultaneously, but for consistency it is usually better to choose one approach. 
+   If you're working in a NestJS context and don't need Winston-specific features, the logger (LoggerService) is usually preferred
+  */
+
   // save() {
   //   console.info(
   //     `save user with connection ${this.connection.getConnection()}`,
