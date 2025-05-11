@@ -3,6 +3,7 @@ import {
   Get,
   Header,
   HttpCode,
+  HttpException,
   HttpRedirectResponse,
   Inject,
   Param,
@@ -45,6 +46,15 @@ export class UserController {
     @Query('first_name') first_name: string,
     @Query('last_name') last_name: string,
   ): Promise<User> {
+    if (!first_name) {
+      throw new HttpException(
+        {
+          code: 400,
+          message: 'firstname should be required!',
+        },
+        400,
+      );
+    }
     return this.userRepository.createUser(first_name, last_name);
   }
 
