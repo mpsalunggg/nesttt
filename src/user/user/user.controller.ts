@@ -11,6 +11,7 @@ import {
   Redirect,
   Req,
   Res,
+  UseFilters,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { UserService } from './user.service';
@@ -20,6 +21,7 @@ import { UserRepository } from '../user-repository/user-repository';
 import { ModuleRef } from '@nestjs/core';
 import { MemberService } from '../member/member.service';
 import { User } from '@prisma/client';
+import { ValidationFilter } from 'src/validation/validation.filter';
 
 @Controller('/api/user')
 export class UserController {
@@ -58,6 +60,7 @@ export class UserController {
   }
 
   @Get('/hello')
+  @UseFilters(ValidationFilter)
   getHello(@Query('name') name: string) {
     return this.service.sayHello(name);
   }
