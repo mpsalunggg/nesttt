@@ -70,7 +70,7 @@ export class UserController {
   }
 
   @Get('/hello')
-  @UseFilters(ValidationFilter)
+  // @UseFilters(ValidationFilter)
   getHello(@Query('name') name: string) {
     return this.service.sayHello(name);
   }
