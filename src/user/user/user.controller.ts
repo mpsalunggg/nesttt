@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Get,
   Header,
@@ -23,6 +24,11 @@ import { ModuleRef } from '@nestjs/core';
 import { MemberService } from '../member/member.service';
 import { User } from '@prisma/client';
 import { ValidationFilter } from 'src/validation/validation.filter';
+import { ValidationPipe } from 'src/validation/validation.pipe';
+import {
+  LoginUserRequest,
+  loginUserRequestValidation,
+} from 'src/model/login.model';
 
 @Controller('/api/user')
 export class UserController {
@@ -148,5 +154,14 @@ export class UserController {
   @Get('/async')
   async getAsync(): Promise<string> {
     return 'test';
+  }
+
+  // @UseFilters(ValidationFilter)
+  @Post('/login')
+  login(
+    @Body(new ValidationPipe(loginUserRequestValidation))
+    request: LoginUserRequest,
+  ) {
+    return `Helloooo ${request.username}`;
   }
 }
