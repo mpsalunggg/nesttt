@@ -14,6 +14,7 @@ import {
   Req,
   Res,
   UseFilters,
+  UsePipes,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { UserService } from './user.service';
@@ -157,11 +158,9 @@ export class UserController {
   }
 
   // @UseFilters(ValidationFilter)
+  @UsePipes(new ValidationPipe(loginUserRequestValidation))
   @Post('/login')
-  login(
-    @Body(new ValidationPipe(loginUserRequestValidation))
-    request: LoginUserRequest,
-  ) {
+  login(@Query('name') name: string, @Body() request: LoginUserRequest) {
     return `Helloooo ${request.username}`;
   }
 }

@@ -5,6 +5,10 @@ import { ZodType } from 'zod';
 export class ValidationPipe implements PipeTransform {
   constructor(private zodtype: ZodType) {}
   transform(value: any, metadata: ArgumentMetadata) {
-    return this.zodtype.parse(value);
+    if (metadata.type === 'body') {
+      return this.zodtype.parse(value);
+    } else {
+      return value;
+    }
   }
 }
