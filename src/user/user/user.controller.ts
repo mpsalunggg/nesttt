@@ -14,6 +14,7 @@ import {
   Req,
   Res,
   UseFilters,
+  UseInterceptors,
   UsePipes,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
@@ -30,6 +31,7 @@ import {
   LoginUserRequest,
   loginUserRequestValidation,
 } from 'src/model/login.model';
+import { TimeInterceptor } from 'src/time/time.interceptor';
 
 @Controller('/api/user')
 export class UserController {
@@ -157,10 +159,14 @@ export class UserController {
     return 'test';
   }
 
+  @Post('/login')
   // @UseFilters(ValidationFilter)
   @UsePipes(new ValidationPipe(loginUserRequestValidation))
-  @Post('/login')
+  @Header('Content-Type', 'application/json')
+  @UseInterceptors(TimeInterceptor)
   login(@Query('name') name: string, @Body() request: LoginUserRequest) {
-    return `Helloooo ${request.username}`;
+    return {
+      data: `Helloooo ${request.username}`,
+    };
   }
 }
