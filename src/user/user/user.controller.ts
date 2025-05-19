@@ -32,6 +32,7 @@ import {
   loginUserRequestValidation,
 } from 'src/model/login.model';
 import { TimeInterceptor } from 'src/time/time.interceptor';
+import { Auth } from 'src/auth/auth.decorator';
 
 @Controller('/api/user')
 export class UserController {
@@ -167,6 +168,13 @@ export class UserController {
   login(@Query('name') name: string, @Body() request: LoginUserRequest) {
     return {
       data: `Helloooo ${request.username}`,
+    };
+  }
+
+  @Get('/current')
+  current(@Auth() user: User): Record<string, any> {
+    return {
+      data: `Heloooo ${user.first_name} ${user.last_name}`,
     };
   }
 }
