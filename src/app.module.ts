@@ -1,4 +1,9 @@
-import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
@@ -9,6 +14,8 @@ import { ValidationModule } from './validation/validation.module';
 import * as winston from 'winston';
 import { LogMiddleware } from './log/log.middleware';
 import { AuthMiddleware } from './auth/auth.middleware';
+import { APP_GUARD } from '@nestjs/core';
+import { RoleGuard } from './role/role.guard';
 
 @Module({
   imports: [
@@ -34,17 +41,23 @@ import { AuthMiddleware } from './auth/auth.middleware';
     ValidationModule.forRoot(true),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: RoleGuard,
+    },
+  ],
 })
-export class AppModule implements NestModule{
+export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(LogMiddleware).forRoutes({
-     path: "/api/*",
-     method: RequestMethod.ALL
-    })
+      path: '/api/*',
+      method: RequestMethod.ALL,
+    });
     consumer.apply(AuthMiddleware).forRoutes({
       path: '/api/user/current',
-      method: RequestMethod.GET
-    })
+      method: RequestMethod.GET,
+    });
   }
 }
