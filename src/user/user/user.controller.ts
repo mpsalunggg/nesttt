@@ -35,6 +35,7 @@ import {
 import { TimeInterceptor } from 'src/time/time.interceptor';
 import { Auth } from 'src/auth/auth.decorator';
 import { RoleGuard } from 'src/role/role.guard';
+import { Roles } from 'src/role/roles.decorator';
 
 @Controller('/api/user')
 export class UserController {
@@ -174,7 +175,8 @@ export class UserController {
   }
 
   @Get('/current')
-  @UseGuards(new RoleGuard(['admin', 'operator']))
+  @UseGuards(RoleGuard)
+  @Roles(['admin'])
   current(@Auth() user: User): Record<string, any> {
     return {
       data: `Heloooo ${user.first_name} ${user.last_name}`,
