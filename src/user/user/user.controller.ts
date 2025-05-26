@@ -14,6 +14,7 @@ import {
   Req,
   Res,
   UseFilters,
+  UseGuards,
   UseInterceptors,
   UsePipes,
 } from '@nestjs/common';
@@ -33,6 +34,7 @@ import {
 } from 'src/model/login.model';
 import { TimeInterceptor } from 'src/time/time.interceptor';
 import { Auth } from 'src/auth/auth.decorator';
+import { RoleGuard } from 'src/role/role.guard';
 
 @Controller('/api/user')
 export class UserController {
@@ -172,6 +174,7 @@ export class UserController {
   }
 
   @Get('/current')
+  @UseGuards(new RoleGuard(['admin', 'operator']))
   current(@Auth() user: User): Record<string, any> {
     return {
       data: `Heloooo ${user.first_name} ${user.last_name}`,
