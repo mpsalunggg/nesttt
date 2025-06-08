@@ -1,0 +1,12 @@
+POST http://localhost:3000/api/user/login?name=sdasd
+Content-Type: application/json
+
+{
+  "username": "asdd",
+  "password": "asdd"
+}
+
+###
+
+GET http://localhost:3000/api/user/current
+x-username: 1
